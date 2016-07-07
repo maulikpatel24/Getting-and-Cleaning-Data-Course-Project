@@ -102,5 +102,5 @@ data_main_avg = data_main # COPY OF A TIDY DATA-SET
 data_main_avg = ddply(data_main_avg, c("subject","activitynum", "activityname"), numcolwise(mean))  # FINAL DATA SET
 dim(data_main_avg) ## this data frame should have 180 rows (30 subjects X 6 activities) 
 # and 89 columns.
-write.table(data_main_avg, file = "data_main_avg.txt") # creating a txt file of a final tidy data-set
+write.table(data_main_avg, file = "data_main_avg.txt", row.names = FALSE) # creating a txt file of a final tidy data-set
 
