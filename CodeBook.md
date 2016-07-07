@@ -95,9 +95,7 @@ library(tidyr)
 
 
 
-Download the Data
-
-# getting data into R
+### Download the Data - getting data into R
 
 setwd("C:\\") # start with setting the working directory in C:
 if(!file.exists("./wearable")){dir.create("./wearable")}
@@ -105,11 +103,11 @@ url <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR
 download.file(url, destfile = "./wearable/wearable.zip")
 unzip("./wearable/wearable.zip",exdir = "./wearable")
 filepath <- "./wearable/UCI HAR Dataset"
-setwd("C:\\wearable") # SETTING THE WORKING DIRECTORY 
+setwd("C:\\wearable") # setting the working directory
 
 
 
-Files in folder ‘UCI HAR Dataset’ that will be used are:
+### Files in folder ‘UCI HAR Dataset’ that will be used are:
 
     SUBJECT FILES
 
@@ -132,7 +130,7 @@ Files in folder ‘UCI HAR Dataset’ that will be used are:
 
 
 
-# Read the above files and create data tables.
+### Read the above files and create data tables.
 subject_train = tbl_df(read.table(file.path(filepath, "train", "subject_train.txt")))
 subject_test = tbl_df(read.table(file.path(filepath, "test", "subject_test.txt")))
 
@@ -150,7 +148,7 @@ sub_train = read.table(file.path(filepath, "train", "subject_train.txt"))
 
 
 ############################################################################
-# QUESTION(1) Merges the training and the test sets to create one data set.
+### QUESTION(1) Merges the training and the test sets to create one data set.
 ############################################################################
 
 all_subject = rbind(subject_train, subject_test)
@@ -173,7 +171,7 @@ dim(data_main) # should be 10299 x 563
 
 
 ########################################################################################################
-# QUESTION(2) Extracts only the measurements on the mean and standard deviation for each measurement.
+### QUESTION(2) Extracts only the measurements on the mean and standard deviation for each measurement.
 ########################################################################################################
 
 mean_std <- grep(".*Mean.*|.*Std.*", names(data_main), value = TRUE, ignore.case=TRUE)
@@ -191,15 +189,15 @@ dim(data_main)  ## this data frame should have 10299 rows (all observations) # a
 
 
 #####################################################################################
-# QUESTION(3) Uses descriptive activity names to name the activities in the data set.
+### QUESTION(3) Uses descriptive activity names to name the activities in the data set.
 #####################################################################################
 
-data_main = merge(activity_labels, data_main, by.x = "activitynum", all = TRUE)  # FINAL DATA SET
-dim(data_main)  ## this data frame should have 10299 rows (all observations) # and 89 (88 + 1 for labels) columns.
+	data_main = merge(activity_labels, data_main, by.x = "activitynum", all = TRUE)  # FINAL DATA SET
+	dim(data_main)  ## this data frame should have 10299 rows (all observations) # and 89 (88 + 1 for labels) columns.
 
 
 ################################################################################
-# QUESTION(4) Appropriately labels the data set with descriptive variable names.
+### QUESTION(4) Appropriately labels the data set with descriptive variable names.
 ################################################################################
 
 Appropriately labels the data set with descriptive variable names.
@@ -225,10 +223,9 @@ names(data_main)<-gsub("Body", "BodyMovement_", names(data_main))
 write.table(data_main, file = "data_main.txt") # creating a txt file of a final tidy data-set
 
 
-############################################################################
-# QUESTION(5) From the data set in step 4, creates a second, independent tidy data 
-#     set with the average of each variable for each activity and each subject.
-############################################################################
+###############################################################################################################################################################
+### QUESTION(5) From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
+###############################################################################################################################################################
 
 data_main_avg = data_main # COPY OF A TIDY DATA-SET
 data_main_avg = ddply(data_main_avg, c("subject","activitynum", "activityname"), numcolwise(mean))  # FINAL DATA SET
